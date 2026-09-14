@@ -1,0 +1,74 @@
+html, body { background-color: #121214 !important; margin: 0 !important; padding: 0 !important; height: 100% !important; }
+.school-app { background-color: #121214 !important; color: #e1e1e6 !important; font-family: system-ui, -apple-system, sans-serif; padding: 12px !important; min-height: 100vh !important; }
+.school-app * { box-sizing: border-box; margin: 0; padding: 0; }
+.school-app header { background: #1e1e24; padding: 12px; border-radius: 8px; margin-bottom: 15px; }
+.school-app .logo { font-weight: bold; font-size: 1.05rem; margin-bottom: 12px; text-align: center; color: #e1e1e6; }
+.school-app .mobile-nav { display: flex; gap: 4px; justify-content: space-between; }
+.school-app .nav-btn { background: none; border: none; color: #8d8d99; padding: 8px 6px; border-radius: 12px; font-size: 0.75rem; cursor: pointer; flex: 1; text-align: center; font-weight: 500; }
+.school-app .nav-btn.active { background: #2a2a32; color: #e1e1e6; }
+
+.school-app .tab-content { display: none; }
+.school-app .tab-content.active { display: block !important; }
+
+.school-app .sub-nav { display: flex; gap: 6px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.school-app .sub-nav::-webkit-scrollbar { display: none; }
+.school-app .sub-btn { background: #1e1e24; border: 1px solid #323238; color: #8d8d99; padding: 6px 12px; border-radius: 6px; font-size: 0.8rem; cursor: pointer; white-space: nowrap; }
+.school-app .sub-btn.active { background: #2a2a32; color: #e1e1e6; border-color: #258cd1; }
+.school-app .sub-tab-content { display: none; }
+.school-app .sub-tab-content.active { display: block !important; }
+
+.school-app h2 { font-size: 1.2rem; margin-bottom: 15px; color: #e1e1e6; }
+.school-app label { display: block; color: #8d8d99; font-size: 0.8rem; margin-bottom: 4px; margin-top: 10px; }
+.school-app select, .school-app input, .school-app textarea { width: 100%; background: #2a2a32; border: 1px solid #323238; border-radius: 6px; padding: 10px; color: #e1e1e6; font-size: 0.9rem; }
+.school-app .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+.school-app .stat-box { background: #1e1e24; padding: 12px; border-radius: 6px; border-left: 3px solid #258cd1; }
+.school-app .stat-box .val { font-size: 1.1rem; font-weight: bold; color: #e1e1e6; }
+.school-app .stat-box .lbl { color: #8d8d99; font-size: 0.75rem; }
+.school-app .day-card { background: #1e1e24; padding: 15px; border-radius: 8px; margin-bottom: 12px; }
+.school-app .day-title { font-weight: bold; font-size: 0.95rem; border-bottom: 1px solid #2a2a32; padding-bottom: 5px; margin-bottom: 10px; color: #e1e1e6; }
+.school-app .btn { background: #258cd1; color: white; border: none; padding: 10px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+.school-app .btn-save { background: #04d361; }
+.school-app .btn-delete { background: #322224; color: #f75a68; padding: 4px 8px; font-size: 0.8rem; }
+.school-app .table-scroll { overflow-x: auto; background: #1e1e24; border-radius: 8px; margin-top: 10px; }
+.school-app table { width: 100%; border-collapse: collapse; min-width: 450px; }
+.school-app th, .school-app td { color: #e1e1e6; padding: 10px; font-size: 0.8rem; text-align: left; border-bottom: 1px solid #2a2a32; }
+.school-app th { color: #8d8d99; }
+.school-app .dir-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #2a2a32; gap: 10px; }
+.school-app .dir-item span { font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* Новые стили для панели календаря и прокрутки недель */
+.school-app .calendar-filter-panel {
+    background: #1e1e24;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #323238;
+}
+.school-app .filter-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+.school-app .btn-nav-date {
+    background: #2a2a32;
+    color: #e1e1e6;
+    border: 1px solid #323238;
+    padding: 10px 15px;
+    font-size: 1rem;
+}
+.school-app .btn-nav-date:hover {
+    background: #258cd1;
+}
+.school-app .week-label-display {
+    font-size: 0.8rem;
+    color: #8d8d99;
+    margin-top: 8px;
+    text-align: center;
+    font-weight: 500;
+}
+/* Увеличенная базовая ширина таблицы для размещения новой колонки */
+.school-app table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+

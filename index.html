@@ -1,0 +1,180 @@
+<link rel="stylesheet" href="style.css">
+
+<div class="school-app">
+    <header>
+        <div class="logo">💼 Школа 163 — продлёнка</div>
+        <div class="mobile-nav">
+            <button class="nav-btn active" onclick="document.appsferaTab('tab-week', this)">Моя неделя</button>
+            <button class="nav-btn" onclick="document.appsferaTab('tab-kids', this)">Дети класса</button>
+            <button class="nav-btn" onclick="document.appsferaTab('tab-sched', this)">Расписание</button>
+            <button class="nav-btn" onclick="document.appsferaTab('tab-dirs', this)">Справочники</button>
+        </div>
+    </header>
+
+    <!-- ВКЛАДКА: МОЯ НЕДЕЛЯ -->
+    <div id="tab-week" class="tab-content active">
+        <h2>Моя неделя</h2>
+        
+        <div class="calendar-filter-panel">
+            <label style="margin: 0 0 5px 0;">Заполнение на неделю для даты:</label>
+            <div class="filter-row">
+                <button class="btn btn-nav-date" onclick="changeWeekDate(-7)">◀</button>
+                <input type="date" id="week-date" value="2026-09-14" onchange="loadChildData()">
+                <button class="btn btn-nav-date" onclick="changeWeekDate(7)">▶</button>
+            </div>
+            <div class="week-label-display" id="week-range-text-parent">Рабочая неделя: 14.09.2026 — 18.09.2026</div>
+        </div>
+
+        <label>Выбор ребёнка</label>
+        <select id="week-child-select" onchange="loadChildData()"></select>
+
+        <div class="stats-row">
+            <div class="stat-box"><div class="val" id="stat-meals">0 из 5</div><div class="lbl">С обедом</div></div>
+            <div class="stat-box"><div class="val" id="stat-leave">0 из 5</div><div class="lbl">Указан уход</div></div>
+        </div>
+
+        <div id="days-container"></div>
+
+        <label>Комментарий на выбранную неделю</label>
+        <textarea id="week-comment" rows="2" placeholder="Например: во вторник заберет бабушка, в среду уйдет сам..."></textarea>
+        
+        <button class="btn btn-save" style="margin-top: 15px; width: 100%;" onclick="saveWeekData()">💾 Сохранить данные на неделю</button>
+        <button class="btn" style="margin-top: 8px; width: 100%; background: #e28743;" onclick="duplicateToNextWeek()">🔁 Продублировать на след. неделю</button>
+    </div>
+
+    <!-- ВКЛАДКА: ДЕТИ КЛАССА -->
+    <div id="tab-kids" class="tab-content">
+        <h2>Дети класса</h2>
+        
+        <div class="calendar-filter-panel">
+            <label style="margin: 0 0 5px 0;">Просмотр недели для даты:</label>
+            <div class="filter-row">
+                <button class="btn btn-nav-date" onclick="changeFilterWeek(-7)">◀</button>
+                <input type="date" id="table-filter-date" value="2026-09-14" onchange="renderClassTable()">
+                <button class="btn btn-nav-date" onclick="changeFilterWeek(7)">▶</button>
+            </div>
+            <div class="week-label-display" id="week-range-text">Рабочая неделя: 14.09.2026 — 18.09.2026</div>
+        </div>
+
+        <!-- МОДЕРНИЗАЦИЯ: Добавлен подсчет Комплексов -->
+        <div class="stats-row" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="stat-box"><div class="val" id="total-kids-count">0</div><div class="lbl">Всего детей</div></div>
+            <div class="stat-box"><div class="val" id="filled-kids-count">0</div><div class="lbl">Заполнено</div></div>
+            <div class="stat-box" style="border-left-color: #04d361;"><div class="val" id="total-complex-count">0</div><div class="lbl">Всего Комплексов</div></div>
+        </div>
+        
+        <div class="table-scroll">
+            <table id="class-table">
+                <thead>
+                    <tr>
+                        <th>Ребёнок</th>
+                        <th>Пн</th>
+                        <th>Вт</th>
+                        <th>Ср</th>
+                        <th>Чт</th>
+                        <th>Пт</th>
+                        <th>Комментарий</th>
+                    </tr>
+                </thead>
+                <tbody id="class-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ВКЛАДКА: РАСПИСАНИЕ -->
+    <div id="tab-sched" class="tab-content">
+        <h2>Расписание уроков</h2>
+        <div id="schedule-container"></div>
+        <button class="btn btn-save" style="margin-top: 15px; width: 100%;" onclick="saveScheduleData()">💾 Сохранить расписание</button>
+    </div>
+
+    <!-- ВКЛАДКА: СПРАВОЧНИКИ -->
+    <div id="tab-dirs" class="tab-content">
+        <h2>Управление справочниками</h2>
+        
+        <!-- МОДЕРНИЗАЦИЯ: Переименовано во «Расписание звонков» -->
+        <div class="sub-nav">
+            <button class="sub-btn active" onclick="document.appsferaSubTab('sub-kids', this)">Ученики</button>
+            <button class="sub-btn" onclick="document.appsferaSubTab('sub-lessons', this)">Уроки</button>
+            <button class="sub-btn" onclick="document.appsferaSubTab('sub-time', this)">Расписание звонков</button>
+            <button class="sub-btn" onclick="document.appsferaSubTab('sub-meals', this)">Обеды</button>
+            <button class="sub-btn" onclick="document.appsferaSubTab('sub-leave', this)">Уход</button>
+            <button class="sub-btn" onclick="document.appsferaSubTab('sub-parents', this)">Кто забирает</button>
+        </div>
+
+        <!-- Подраздел: Ученики -->
+        <div id="sub-kids" class="sub-tab-content active">
+            <div class="day-card">
+                <div class="day-title">Добавить ученика</div>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="new-child-name" placeholder="ФИО ребенка">
+                    <button class="btn" onclick="addNewChild()">+</button>
+                </div>
+            </div>
+            <div class="day-card"><div class="day-title">Список учеников</div><div id="directory-children-list"></div></div>
+        </div>
+
+        <!-- Подраздел: Уроки -->
+        <div id="sub-lessons" class="sub-tab-content">
+            <div class="day-card">
+                <div class="day-title">Добавить школьный предмет</div>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="new-lesson-name" placeholder="Например: Информатика">
+                    <button class="btn" onclick="addNewLesson()">+</button>
+                </div>
+            </div>
+            <div class="day-card"><div class="day-title">Список предметов</div><div id="directory-lessons-list"></div></div>
+        </div>
+
+        <!-- Подраздел: Расписание звонков -->
+        <div id="sub-time" class="sub-tab-content">
+            <div class="day-card">
+                <div class="day-title">Добавить время урока</div>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="new-time-name" placeholder="1 урок (08:30-09:10)">
+                    <button class="btn" onclick="addNewTime()">+</button>
+                </div>
+            </div>
+            <div class="day-card"><div class="day-title">Список временных интервалов</div><div id="directory-time-list"></div></div>
+        </div>
+
+        <!-- Подраздел: Обеды -->
+        <div id="sub-meals" class="sub-tab-content">
+            <div class="day-card">
+                <div class="day-title">Добавить тип обеда</div>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="new-meal-name" placeholder="Например: Половина порции">
+                    <button class="btn" onclick="addNewMeal()">+</button>
+                </div>
+            </div>
+            <div class="day-card"><div class="day-title">Варианты обедов</div><div id="directory-meals-list"></div></div>
+        </div>
+
+        <!-- Подраздел: Уход -->
+        <div id="sub-leave" class="sub-tab-content">
+            <div class="day-card">
+                <div class="day-title">Добавить статус ухода</div>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="new-leave-name" placeholder="Например: Секция (17:00)">
+                    <button class="btn" onclick="addNewLeave()">+</button>
+                </div>
+            </div>
+            <div class="day-card"><div class="day-title">Варианты статусов ухода</div><div id="directory-leave-list"></div></div>
+        </div>
+
+        <!-- Подраздел: Кто забирает -->
+        <div id="sub-parents" class="sub-tab-content">
+            <div class="day-card">
+                <div class="day-title">Добавить сопровождающего</div>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="new-parent-name" placeholder="Например: Бабушка">
+                    <button class="btn" onclick="addNewParent()">+</button>
+                </div>
+            </div>
+            <div class="day-card"><div class="day-title">Кто может забирать детей</div><div id="directory-parents-list"></div></div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
